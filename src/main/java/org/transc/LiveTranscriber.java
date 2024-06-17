@@ -39,14 +39,10 @@ public class LiveTranscriber {
     private float[][] audioBase;
     private float[][] audioMedium;
     private int stepIndex = 0;
-    private float buffer_seconds = 2f;
 
-    private static Queue<float[]> sampleQueue = new ConcurrentLinkedQueue<>();
-
-    public LiveTranscriber(Path modelPath, float buffer_seconds) {
-        this.buffer_seconds = buffer_seconds;
-        audioBase = new float[3][];
-        audioMedium = new float[3][];
+    public LiveTranscriber(Path modelPath, int baseBufferSize, int mediumBufferSize) {
+        audioBase = new float[baseBufferSize][];
+        audioMedium = new float[mediumBufferSize][];
         string_steps = new StringBuilder[3];
         for (int i = 0; i < string_steps.length; i++) {
             string_steps[i] = new StringBuilder();
@@ -75,34 +71,6 @@ public class LiveTranscriber {
 
     }
 
-    public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
-        LiveTranscriber t = new LiveTranscriber(Path.of("/Users/christiankilduff/Downloads/Distil Small English Model.bin"), 2);
-        MicrophoneReader mic = null;
-        try {
-            mic = new MicrophoneReader(t.buffer_seconds, samples -> {
-                sampleQueue.add(samples);
-            });
-        } catch (LineUnavailableException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        mic.start();
-        boolean hello = true;
-        while (hello) {
-            while (!sampleQueue.isEmpty()) {
-                t.processAudio(sampleQueue.poll());
-                t.printCurrentTranscript();
-                writeStringToFile(t.string_steps[2].toString() + t.string_steps[1] + t.string_steps[0], "~/Downloads/t.txt");
-
-                if(!sampleQueue.isEmpty())
-                    System.err.println("BEHIND BY " + sampleQueue.size());
-            }
-        }
-
-        t.close();
-        mic.stop();
-    }
 
     public String getHighConfidence() {
         return string_steps[2].toString();
@@ -119,7 +87,7 @@ public class LiveTranscriber {
         ctx.close();
     }
 
-    protected void printCurrentTranscript() {
+    public void printCurrentTranscript() {
         System.out.println("\n\n" + tColor.ANSI_GREEN + string_steps[2] + tColor.ANSI_CYAN + string_steps[1] + tColor.ANSI_RESET + string_steps[0]);
     }
 
@@ -208,19 +176,6 @@ public class LiveTranscriber {
         }
         return samples;
     }
-    private static void writeStringToFile(String text, String path) {
-        if (path.startsWith("~")) {
-            path = System.getProperty("user.home") + path.substring(1);
-        }
 
-        Path filePath = Path.of(path);
-        try {
-            Files.write(filePath, text.getBytes(StandardCharsets.UTF_8));
-            System.out.println("File written successfully.");
-        } catch (IOException e) {
-            System.err.println("An error occurred while writing the file: ");
-            e.printStackTrace();
-        }
-    }
 
 }
