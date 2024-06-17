@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2307350e-3976-4c5f-b1ad-72aa1ad73eb5" name="Changes" comment="?">
-      <change afterPath="$PROJECT_DIR$/src/main/java/test/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/LiveTranscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/transc/LiveTranscriber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/MicrophoneReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/transc/MicrophoneReader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
