@@ -14,12 +14,10 @@ import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class Main {
+public class LiveTranscriber {
 
     public static class tColor {
         public static final String ANSI_RESET = "\u001B[0m";
@@ -34,18 +32,19 @@ public class Main {
 
     }
 
-    private static WhisperJNI whisper = new WhisperJNI();
-    private static WhisperContext ctx;
-    private static WhisperFullParams params;
-    private static StringBuilder[] string_steps;
-    private static float[][] audioBase;
-    private static float[][] audioMedium;
-    private static int stepIndex = 0;
-    private static float buffer_seconds = 2f;
+    private WhisperJNI whisper = new WhisperJNI();
+    private WhisperContext ctx;
+    private WhisperFullParams params;
+    private StringBuilder[] string_steps;
+    private float[][] audioBase;
+    private float[][] audioMedium;
+    private int stepIndex = 0;
+    private float buffer_seconds = 2f;
 
     private static Queue<float[]> sampleQueue = new ConcurrentLinkedQueue<>();
 
-    public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
+    public LiveTranscriber(Path modelPath, float buffer_seconds) {
+        this.buffer_seconds = buffer_seconds;
         audioBase = new float[3][];
         audioMedium = new float[3][];
         string_steps = new StringBuilder[3];
@@ -54,40 +53,78 @@ public class Main {
         }
 
 
-        WhisperJNI.loadLibrary(); // load platform binaries
+        try {
+            WhisperJNI.loadLibrary(); // load platform binaries
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         WhisperJNI.setLibraryLogger(null); // capture/disable whisper.cpp log
         whisper = new WhisperJNI();
         System.out.println("initing ctx");
 //        ctx = whisper.init(Path.of("/Users/christiankilduff/Downloads/Distil Medium English.bin"));
-        ctx = whisper.init(Path.of("/Users/christiankilduff/Downloads/Distil Small English Model.bin"));
+        try {
+            ctx = whisper.init(modelPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         params = new WhisperFullParams();
         System.out.println("starting mic");
 
 
-        MicrophoneReader reader = new MicrophoneReader(buffer_seconds, samples -> {
-            sampleQueue.add(samples);
-        });
-        reader.start();
+
+
+    }
+
+    public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
+        LiveTranscriber t = new LiveTranscriber(Path.of("/Users/christiankilduff/Downloads/Distil Small English Model.bin"), 2);
+        MicrophoneReader mic = null;
+        try {
+            mic = new MicrophoneReader(t.buffer_seconds, samples -> {
+                sampleQueue.add(samples);
+            });
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        mic.start();
         boolean hello = true;
         while (hello) {
             while (!sampleQueue.isEmpty()) {
-                processAudio(sampleQueue.poll());
-                printCurrentTranscript();
+                t.processAudio(sampleQueue.poll());
+                t.printCurrentTranscript();
+                writeStringToFile(t.string_steps[2].toString() + t.string_steps[1] + t.string_steps[0], "~/Downloads/t.txt");
+
                 if(!sampleQueue.isEmpty())
                     System.err.println("BEHIND BY " + sampleQueue.size());
             }
         }
 
-        ctx.close(); // free native memory, should be called when we don't need the context anymore.
+        t.close();
+        mic.stop();
     }
 
-    private static void printCurrentTranscript() {
+    public String getHighConfidence() {
+        return string_steps[2].toString();
+    }
+
+    public String getMediumConfidence() {
+        return string_steps[1].toString();
+    }
+    public String getLowConfidence() {
+        return string_steps[0].toString();
+    }
+
+    public void close() {
+        ctx.close();
+    }
+
+    protected void printCurrentTranscript() {
         System.out.println("\n\n" + tColor.ANSI_GREEN + string_steps[2] + tColor.ANSI_CYAN + string_steps[1] + tColor.ANSI_RESET + string_steps[0]);
-        writeStringToFile(string_steps[2].toString() + string_steps[1] + string_steps[0], "~/Downloads/t.txt");
     }
 
     // does the proper transciption step for the current index
-    public static void processAudio(float[] samples) {
+    public void processAudio(float[] samples) {
         int a = stepIndex % audioBase.length;
         /*
         s1: [3]
@@ -132,7 +169,7 @@ public class Main {
         return concat;
     }
 
-    public static String transcribe(float[] samples) {
+    public String transcribe(float[] samples) {
         int result = whisper.full(ctx, params, samples, samples.length);
         if (result != 0) {
             throw new RuntimeException("Transcription failed with code " + result);
@@ -171,7 +208,7 @@ public class Main {
         }
         return samples;
     }
-    public static void writeStringToFile(String text, String path) {
+    private static void writeStringToFile(String text, String path) {
         if (path.startsWith("~")) {
             path = System.getProperty("user.home") + path.substring(1);
         }
