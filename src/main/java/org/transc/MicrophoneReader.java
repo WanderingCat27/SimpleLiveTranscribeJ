@@ -1,11 +1,10 @@
-package org.example;
+package org.transc;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
-import java.util.Arrays;
 import java.util.function.Consumer;
 
 public class MicrophoneReader {

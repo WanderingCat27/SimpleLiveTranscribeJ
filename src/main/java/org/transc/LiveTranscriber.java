@@ -1,4 +1,4 @@
-package org.example;
+package org.transc;
 
 import io.github.givimad.whisperjni.WhisperContext;
 import io.github.givimad.whisperjni.WhisperFullParams;
@@ -6,16 +6,11 @@ import io.github.givimad.whisperjni.WhisperJNI;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class LiveTranscriber {
 

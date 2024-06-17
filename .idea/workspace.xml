@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2307350e-3976-4c5f-b1ad-72aa1ad73eb5" name="Changes" comment="base" />
+    <list default="true" id="2307350e-3976-4c5f-b1ad-72aa1ad73eb5" name="Changes" comment="?">
+      <change afterPath="$PROJECT_DIR$/src/main/java/test/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/LiveTranscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/transc/LiveTranscriber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/MicrophoneReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/transc/MicrophoneReader.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -80,7 +87,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "show.migrate.to.gradle.popup": "false"
@@ -162,11 +169,20 @@
       <option name="project" value="LOCAL" />
       <updated>1718592602275</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="?">
+      <option name="closed" value="true" />
+      <created>1718592791717</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1718592791717</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="base" />
-    <option name="LAST_COMMIT_MESSAGE" value="base" />
+    <MESSAGE value="?" />
+    <option name="LAST_COMMIT_MESSAGE" value="?" />
   </component>
 </project>
