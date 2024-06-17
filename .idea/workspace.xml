@@ -7,7 +7,10 @@
     <list default="true" id="2307350e-3976-4c5f-b1ad-72aa1ad73eb5" name="Changes" comment="?">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/main/java/test/Main.java" beforeDir="false" />
+=======
+>>>>>>> e5606ac (Live Transcriber base commit)
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +87,11 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "dart.analysis.tool.window.visible": "false",
+<<<<<<< HEAD
     "git-widget-placeholder": "main",
+=======
+    "git-widget-placeholder": "3350eb01",
+>>>>>>> e5606ac (Live Transcriber base commit)
     "kotlin-language-version-configured": "true",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "show.migrate.to.gradle.popup": "false"
